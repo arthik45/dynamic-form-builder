@@ -176,14 +176,13 @@ function Login() {
                             </div>
                         </div>
 
-                        {/* API Error */}
+            
                         {error && (
                             <p className="text-red-500 text-sm mb-4">
                                 {error}
                             </p>
                         )}
 
-                        {/* Submit */}
                         <button
                             type="submit"
                             disabled={loading}

@@ -1,5 +1,5 @@
 import express from "express";
-// import cors from "cors";
+import cors from "cors";
 import dotenv from "dotenv";
 import connectdb from "./config/db.js";
 import authRouter from "./routes/authRouter.js";
@@ -7,7 +7,7 @@ import formRoutes from "./routes/formRoutes.js";
 import submissionrouter from "./routes/submissionRoutes.js";
 dotenv.config()
 const app = express();
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 const port = process.env.PORT || 4000;
 app.use((req, res, next) => {
