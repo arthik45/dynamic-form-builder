@@ -1,0 +1,10 @@
+import express from "express";
+import { createForm, updateForm, getForms, getformById,Deleteform, getPublishedForm} from "../controllers/formController.js";
+const formRoutes = express.Router();
+formRoutes.get("/:id", getPublishedForm);
+formRoutes.post("/", createForm);
+formRoutes.put("/", updateForm);
+formRoutes.get("/", getForms);
+formRoutes.get("/:id", getformById);
+formRoutes.delete("/:id", Deleteform);
+export default formRoutes;
