@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectdb from "./config/db.js";
 import authRouter from "./routes/authRouter.js";
 import formRoutes from "./routes/formRoutes.js";
+import submissionrouter from "./routes/submissionRoutes.js";
 dotenv.config()
 const app = express();
 // app.use(cors());
@@ -17,7 +18,8 @@ app.get("/", (req, res)=>{
     res.send("server is running")
 })
 app.use("/api",authRouter)
-app.use("/api/forms",formRoutes)
+app.use("/api/forms", formRoutes)
+app.use("/api", submissionrouter);
 const startServer = async () => {
     await connectdb();
     app.listen(port, () => {

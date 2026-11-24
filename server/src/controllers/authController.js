@@ -76,6 +76,12 @@ export const login = async (req, res) => {
         const user = await User.findOne({
             email: email.toLowerCase().trim()
         })
+        if (user.role !== "admin") {
+            return res.status(403).json({
+                success: false,
+                message: "Admin access only"
+            });
+        }
 
         if (!user) {
             return res.status(401).json({
