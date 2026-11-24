@@ -1,0 +1,189 @@
+.submission-page {
+    min-height: 100vh;
+    padding: 45px 16px;
+    background: #f5f6fa;
+}
+
+.submission-container {
+    max-width: 700px;
+    margin: auto;
+}
+
+.submission-header {
+    padding: 30px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-top: 5px solid #2563eb;
+    border-radius: 10px;
+    margin-bottom: 18px;
+}
+
+.form-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 9px;
+    margin-bottom: 18px;
+}
+
+.submission-header h1 {
+    margin: 0 0 10px;
+    font-size: 25px;
+    color: #111827;
+}
+
+.submission-header p {
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.form-info {
+    margin-top: 22px;
+    padding-top: 15px;
+    border-top: 1px solid #e5e7eb;
+    color: #dc2626;
+    font-size: 12px;
+}
+
+.submission-container form {
+    padding: 25px 30px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.submission-field {
+    margin-bottom: 26px;
+}
+
+.submission-label {
+    display: block;
+    margin-bottom: 12px;
+    color: #1f2937;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.required-star {
+    color: #dc2626;
+}
+
+.submission-field>input,
+.submission-field>textarea,
+.submission-field>select {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+    background: white;
+    color: #1f2937;
+}
+
+.submission-field>textarea {
+    resize: vertical;
+}
+
+.submission-field>input:focus,
+.submission-field>textarea:focus,
+.submission-field>select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px #2563eb15;
+}
+
+.choice-group {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.choice-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #4b5563;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.choice-item input {
+    width: 16px;
+    height: 16px;
+    accent-color: #2563eb;
+}
+
+.field-error {
+    margin: 7px 0 0;
+    color: #dc2626;
+    font-size: 12px;
+}
+
+.submit-form-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 14px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.submit-form-btn:hover {
+    background: #1d4ed8;
+}
+
+.form-footer {
+    margin: 20px 0 0;
+    color: #9ca3af;
+    text-align: center;
+    font-size: 11px;
+}
+
+.success-card {
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 45px 30px;
+    border-radius: 12px;
+    background: white;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+}
+
+.success-card h2 {
+    margin-top: 20px;
+    color: #111827;
+}
+
+.success-card p {
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+    .submission-page {
+        padding: 20px 12px;
+    }
+
+    .submission-header,
+    .submission-container form {
+        padding: 22px 18px;
+    }
+
+    .submission-header h1 {
+        font-size: 21px;
+    }
+}

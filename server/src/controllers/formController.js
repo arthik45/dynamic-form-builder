@@ -1,4 +1,5 @@
 import Form from "../models/Form.js";
+import mongoose from "mongoose";
 
 const validateForm = (name,fields) => {
     if (!name || !name.trim()) {
@@ -57,6 +58,7 @@ export const createForm = async (req, res) => {
     try {
         const { name, description, fields = [] } = req.body;
         const validateError = validateForm(name, fields);
+        console.log(validateError)
         if (validateError) {
             return res.status(400).json({
                 status: false,
@@ -77,6 +79,7 @@ export const createForm = async (req, res) => {
         })
     
     } catch (error) {
+        console.error("Create Form Error:", error);
         return res.status(500).json({
             success: false,
             message: "Failed to create form",
@@ -258,30 +261,47 @@ export const Deleteform = async (req, res) => {
     }
 };
 
+// GET /api/forms/:formId
 
-export const getPublishedForm = async (req, res) => {
+export const getPublicForm = async (req, res) => {
     try {
-        const form = await Form.findOne({
-            _id: req.params.id,
-            status: "published"
-        }).select("name description fields");
+        const { formId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(formId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid form ID"
+            });
+        }
+
+        const form = await Form.findById(formId).lean();
 
         if (!form) {
             return res.status(404).json({
                 success: false,
-                message: "Published form not found"
+                message: "Form not found"
+            });
+        }
+
+        if (form.status !== "published") {
+            return res.status(403).json({
+                success: false,
+                message: "This form is not available"
             });
         }
 
         return res.status(200).json({
             success: true,
-            form
+            data: form
         });
 
     } catch (error) {
-        return res.status(400).json({
+        console.error("Get public form error:", error);
+
+        return res.status(500).json({
             success: false,
-            message: "Invalid form ID"
+            message: "Internal server error"
         });
     }
 };
+

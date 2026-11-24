@@ -174,6 +174,110 @@
     color: #2563eb;
     font-size: 11px;
 }
+.share-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+.share-modal {
+    background: #fff;
+    width: 100%;
+    max-width: 480px;
+    padding: 30px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+}
+
+.share-success-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #16a34a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.share-modal h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.share-modal p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 22px;
+}
+
+.share-url-box {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.share-url-box input {
+    flex: 1;
+    min-width: 0;
+    padding: 11px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    font-size: 13px;
+}
+
+.share-url-box button {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 0 16px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.share-buttons button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.whatsapp-share {
+    background: #16a34a;
+}
+
+.gmail-share {
+    background: #dc2626;
+}
+
+.close-share-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #f1f5f9;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 600;
+}
 
 .add-field-btn {
     border: none;

@@ -197,6 +197,50 @@ export const getSingleSubmission = async (req, res) => {
     }
 };
 
+// GET /api/forms/:formId
+
+export const getPublicForm = async (req, res) => {
+    try {
+        const { formId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(formId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid form ID"
+            });
+        }
+
+        const form = await Form.findById(formId).lean();
+
+        if (!form) {
+            return res.status(404).json({
+                success: false,
+                message: "Form not found"
+            });
+        }
+
+        if (form.status !== "published") {
+            return res.status(403).json({
+                success: false,
+                message: "This form is not available"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: form
+        });
+
+    } catch (error) {
+        console.error("Get public form error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
+
 
 // ======================================
 // ADMIN: DELETE SUBMISSION

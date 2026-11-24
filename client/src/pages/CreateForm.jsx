@@ -183,10 +183,19 @@ function CreateForm() {
         try {
             const result = await dispatch(createForm(formData)).unwrap();
 
-            toast.success(result.message);
+            toast.success(result.message || "Form created successfully!");
 
-            // Navigate to My Forms after successful creation
-            navigate("/admin/myforms");
+            // Get created form ID from backend response
+            const formId =
+                result.form?._id ||
+                result._id;
+
+            if (status === "PUBLISHED" && formId) {
+                const url = `${window.location.origin}/forms/${formId}`;
+                setShareUrl(url);
+            } else {
+                navigate("/admin/myforms");
+            }
 
         } catch (error) {
             console.error("Create Form Error:", error);
@@ -601,6 +610,92 @@ function CreateForm() {
                     </div>
                 </aside>
             </div>
+
+
+            {shareUrl && (
+                <div className="share-overlay">
+                    <div className="share-modal">
+
+                        <div className="share-success-icon">
+                            <Eye size={28} />
+                        </div>
+
+                        <h2>Form Published Successfully!</h2>
+
+                        <p>
+                            Your form is ready. Share this link with anyone
+                            who needs to submit a response.
+                        </p>
+
+                        <div className="share-url-box">
+                            <input
+                                type="text"
+                                value={shareUrl}
+                                readOnly
+                            />
+
+                            <button
+                                onClick={() => {
+                                    navigator.clipboard.writeText(shareUrl);
+                                    toast.success("Link copied!");
+                                }}
+                            >
+                                Copy
+                            </button>
+                        </div>
+
+                        <div className="share-buttons">
+
+                            <button
+                                className="whatsapp-share"
+                                onClick={() => {
+                                    const message = encodeURIComponent(
+                                        `Please fill out this form:\n${shareUrl}`
+                                    );
+
+                                    window.open(
+                                        `https://wa.me/?text=${message}`,
+                                        "_blank"
+                                    );
+                                }}
+                            >
+                                <icon name="message-circle" />
+                                WhatsApp
+                            </button>
+
+                            <button
+                                className="gmail-share"
+                                onClick={() => {
+                                    const subject = encodeURIComponent(
+                                        "Please fill out this form"
+                                    );
+
+                                    const body = encodeURIComponent(
+                                        `Hello,\n\nPlease fill out this form using the link below:\n\n${shareUrl}\n\nThank you.`
+                                    );
+
+                                    window.open(
+                                        `https://mail.google.com/mail/?view=cm&fs=1&su=${subject}&body=${body}`,
+                                        "_blank"
+                                    );
+                                }}
+                            >
+                                <icon name="mail" />
+                                Gmail
+                            </button>
+
+                        </div>
+
+                        <button
+                            className="close-share-btn"
+                            onClick={() => navigate("/admin/myforms")}
+                        >
+                            Go to My Forms
+                        </button>
+
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
