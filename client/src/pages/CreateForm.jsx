@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createForm } from "../features/forms/formSlice";
+import Navbar from "../components/Navbar";
 import {
     ArrowLeft,
     Plus,
@@ -59,6 +60,7 @@ function CreateForm() {
     const [fields, setFields] = useState([]);
     const [selectedField, setSelectedField] = useState(null);
     const [shareUrl, setShareUrl] = useState("");
+    const [optionText, setOptionText] = useState({});
 
     // Add a new field
     const handleAddField = () => {
@@ -168,12 +170,23 @@ function CreateForm() {
 
             fields: fields.map(({ id, ...field }, index) => ({
                 ...field,
+
+                options: ["SELECT", "RADIO", "CHECKBOX"].includes(field.type)
+                    ? (
+                        optionText[id] !== undefined
+                            ? optionText[id].split(",").map(item => item.trim()).filter(Boolean)
+                            : field.options
+                    )
+                    : [],
+
                 minLength: field.minLength === ""
                     ? undefined
                     : Number(field.minLength),
+
                 maxLength: field.maxLength === ""
                     ? undefined
                     : Number(field.maxLength),
+
                 order: index,
             })),
 
@@ -190,7 +203,7 @@ function CreateForm() {
                 result.form?._id ||
                 result._id;
 
-            if (status === "PUBLISHED" && formId) {
+            if (status === "published" && formId) {
                 const url = `${window.location.origin}/forms/${formId}`;
                 setShareUrl(url);
             } else {
@@ -215,6 +228,7 @@ function CreateForm() {
 
     return (
         <div className="create-form-page">
+            <Navbar />
 
             {/* Header */}
             <header className="create-header">
@@ -235,7 +249,7 @@ function CreateForm() {
                 <div className="header-actions">
                     <button
                         className="draft-btn"
-                        onClick={() => handleSave("DRAFT")}
+                        onClick={() => handleSave("draft")}
                         disabled={loading}
                     >
                         <Save size={16} />
@@ -244,7 +258,7 @@ function CreateForm() {
 
                     <button
                         className="publish-btn"
-                        onClick={() => handleSave("PUBLISHED")}
+                        onClick={() => handleSave("published")}
                         disabled={loading}
                     >
                         <Eye size={16} />
@@ -384,7 +398,7 @@ function CreateForm() {
                                         </div>
 
                                         {selectedField === field.id && (
-                                            <div className="field-editor">
+                                            <div className="field-editor" onClick={(e) => e.stopPropagation()}>
 
                                                 <div className="editor-grid">
                                                     <div className="input-group">
@@ -508,35 +522,37 @@ function CreateForm() {
                                                 </div>
 
                                                 {/* Options for select, radio and checkbox */}
-                                                {["SELECT", "RADIO", "CHECKBOX"].includes(
-                                                    field.type
-                                                ) && (
-                                                        <div className="input-group options-group">
-                                                            <label>Field Options *</label>
-                                                            <textarea
-                                                                rows="3"
-                                                                placeholder="Enter options separated by commas. Example: Male, Female, Other"
-                                                                value={field.options.join(", ")}
-                                                                onChange={(e) =>
-                                                                    handleFieldChange(
-                                                                        field.id,
-                                                                        "options",
-                                                                        [
-                                                                            ...new Set(
-                                                                                e.target.value
-                                                                                    .split(",")
-                                                                                    .map((item) => item.trim())
-                                                                                    .filter(Boolean)
-                                                                            ),
-                                                                        ]
-                                                                    )
-                                                                }
-                                                            />
-                                                            <small>
-                                                                Separate each option with a comma.
-                                                            </small>
-                                                        </div>
-                                                    )}
+                                                {["SELECT", "RADIO", "CHECKBOX"].includes(field.type) && (
+                                                    <div className="input-group options-group">
+                                                        <label>Field Options *</label>
+
+                                                        <textarea
+                                                            rows={3}
+                                                            placeholder="Male, Female, Other"
+                                                            value={
+                                                                optionText[field.id] !== undefined
+                                                                    ? optionText[field.id]
+                                                                    : field.options.join(", ")
+                                                            }
+                                                            onChange={(e) => {
+                                                                const value = e.target.value;
+
+                                                                setOptionText(prev => ({
+                                                                    ...prev,
+                                                                    [field.id]: value
+                                                                }));
+
+                                                                handleFieldChange(
+                                                                    field.id,
+                                                                    "options",
+                                                                    value.split(",").map(item => item.trim()).filter(Boolean)
+                                                                );
+                                                            }}
+                                                        />
+
+                                                        <small>Separate each option with a comma.</small>
+                                                    </div>
+                                                )}
 
                                                 <label className="required-checkbox">
                                                     <input

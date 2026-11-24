@@ -5,6 +5,7 @@ import connectdb from "./config/db.js";
 import authRouter from "./routes/authRouter.js";
 import formRoutes from "./routes/formRoutes.js";
 import submissionrouter from "./routes/submissionRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 dotenv.config()
 const app = express();
 app.use(cors());
@@ -20,6 +21,7 @@ app.get("/", (req, res)=>{
 app.use("/api",authRouter)
 app.use("/api/forms", formRoutes)
 app.use("/api", submissionrouter);
+app.use("/api/admin/dashboard", dashboardRoutes);
 const startServer = async () => {
     await connectdb();
     app.listen(port, () => {

@@ -1,4 +1,5 @@
 import Form from "../models/Form.js";
+import Submission from "../models/Submission.js";
 import mongoose from "mongoose";
 
 const validateForm = (name,fields) => {
@@ -56,7 +57,7 @@ const validateForm = (name,fields) => {
 }
 export const createForm = async (req, res) => {
     try {
-        const { name, description, fields = [] } = req.body;
+        const { name, description, fields = [], status = "draft" } = req.body;
         const validateError = validateForm(name, fields);
         console.log(validateError)
         if (validateError) {
@@ -69,7 +70,7 @@ export const createForm = async (req, res) => {
             name,
             description,
             fields,
-            status: "draft",
+            status,
             createdBy: req.user.id
         })
         return res.status(201).json({
@@ -90,9 +91,11 @@ export const createForm = async (req, res) => {
 }
 
 // GET ALL FORMS
+
 export const getForms = async (req, res) => {
     try {
         const page = Math.max(Number(req.query.page) || 1, 1);
+
         const limit = Math.min(
             Math.max(Number(req.query.limit) || 10, 1),
             100
@@ -100,6 +103,7 @@ export const getForms = async (req, res) => {
 
         const skip = (page - 1) * limit;
 
+        // Get logged-in admin's forms
         const filter = {
             createdBy: req.user.id
         };
@@ -115,18 +119,55 @@ export const getForms = async (req, res) => {
             filter.status = req.query.status;
         }
 
+        // Fetch forms and total count
         const [forms, total] = await Promise.all([
             Form.find(filter)
                 .sort({ updatedAt: -1 })
                 .skip(skip)
-                .limit(limit),
+                .limit(limit)
+                .lean(),
 
             Form.countDocuments(filter)
         ]);
 
+        // Get IDs of fetched forms
+        const formIds = forms.map((form) => form._id);
+
+        // Count submissions for each form
+        const submissionCounts = await Submission.aggregate([
+            {
+                $match: {
+                    formId: { $in: formIds }
+                }
+            },
+            {
+                $group: {
+                    _id: "$formId",
+                    totalSubmissions: {
+                        $sum: 1
+                    }
+                }
+            }
+        ]);
+
+        // Convert aggregation result into Map
+        const countMap = new Map(
+            submissionCounts.map((item) => [
+                item._id.toString(),
+                item.totalSubmissions
+            ])
+        );
+
+        // Attach submission count to forms
+        const formsWithCounts = forms.map((form) => ({
+            ...form,
+            totalSubmissions:
+                countMap.get(form._id.toString()) || 0
+        }));
+
         return res.status(200).json({
             success: true,
-            forms,
+            forms: formsWithCounts,
             pagination: {
                 total,
                 page,
@@ -136,6 +177,8 @@ export const getForms = async (req, res) => {
         });
 
     } catch (error) {
+        console.error("Get forms error:", error);
+
         return res.status(500).json({
             success: false,
             message: "Failed to fetch forms",
@@ -143,6 +186,7 @@ export const getForms = async (req, res) => {
         });
     }
 };
+
 
 export const getformById = async (req, res) => {
     try {

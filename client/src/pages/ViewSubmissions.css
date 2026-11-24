@@ -250,6 +250,31 @@
     justify-content: flex-end;
     margin-top: 20px;
 }
+.submission-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.submission-pagination button {
+    padding: 9px 18px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+}
+
+.submission-pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.submission-pagination span {
+    font-size: 14px;
+    color: #555;
+}
 
 .modal-footer button {
     background: #4f46e5;
