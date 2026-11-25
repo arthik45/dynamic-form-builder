@@ -134,7 +134,7 @@ Configure the following environment variables using the actual names expected by
 
 ```env
 PORT =5000
-MONGO_URL=mongodb+srv://arthiksk:arthik123@cluster0.8lvmecr.mongodb.net/cateringDB
+MONGO_URL=""
 JWT_SECRET=your_secret_key
 
 ADMIN_NAME=Admin
