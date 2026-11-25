@@ -37,31 +37,34 @@ function Dashboard() {
       value: stats.totalForms,
       change: "All created forms",
       icon: FileText,
-      color: "bg-blue-100 text-blue-600"
+      color: "bg-blue-500",
+      iconColor: "bg-white/20 text-white"
     },
     {
       title: "Published Forms",
       value: stats.publishedForms,
       change: "Live forms",
       icon: CheckCircle,
-      color: "bg-green-100 text-green-600"
+      color: "bg-green-500",
+      iconColor: "bg-white/20 text-white"
     },
     {
       title: "Draft Forms",
       value: stats.draftForms,
       change: "Unpublished forms",
       icon: FileEdit,
-      color: "bg-orange-100 text-orange-600"
+      color: "bg-orange-500",
+      iconColor: "bg-white/20 text-white"
     },
     {
       title: "Total Submissions",
       value: stats.totalSubmissions,
       change: "All form responses",
       icon: Send,
-      color: "bg-purple-100 text-purple-600"
+      color: "bg-purple-500",
+      iconColor: "bg-white/20 text-white"
     }
   ];
-
   const formatDate = (date) => {
     if (!date) return "-";
 
@@ -125,8 +128,8 @@ function Dashboard() {
       )}
 
       {/* Statistics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4
-            gap-5 mb-8">
+      {/* Statistics */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
 
         {statCards.map((item) => {
           const Icon = item.icon;
@@ -134,30 +137,30 @@ function Dashboard() {
           return (
             <div
               key={item.title}
-              className="bg-white p-5 rounded-xl border border-slate-200"
+              className={`${item.color} p-6 rounded-xl shadow-sm text-white`}
             >
               <div className="flex justify-between items-center">
 
                 <div>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm font-medium text-white/90">
                     {item.title}
                   </p>
 
-                  <h2 className="text-3xl font-bold text-slate-900 mt-3">
+                  <h2 className="text-3xl font-bold mt-3">
                     {loading ? "..." : item.value}
                   </h2>
                 </div>
 
-                <div className={`p-3 rounded-xl ${item.color}`}>
-                  <Icon size={23} />
+                <div className={`p-3 rounded-xl ${item.iconColor}`}>
+                  <Icon size={25} />
                 </div>
 
               </div>
 
-              <div className="flex items-center gap-1 mt-4">
-                <ArrowUpRight size={15} className="text-green-600" />
+              <div className="flex items-center gap-1 mt-5">
+                <ArrowUpRight size={16} className="text-white" />
 
-                <span className="text-sm text-slate-500 font-medium">
+                <span className="text-sm text-white/90 font-medium">
                   {item.change}
                 </span>
               </div>
