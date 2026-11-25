@@ -1,12 +1,10 @@
 
 import jwt from "jsonwebtoken";
 
-// Verify JWT token
 export const authenticate = (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
 
-        // Check whether token exists
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return res.status(401).json({
                 success: false,
@@ -16,10 +14,8 @@ export const authenticate = (req, res, next) => {
 
         const token = authHeader.split(" ")[1];
 
-        // Verify token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        // Store logged-in user details
         req.user = decoded;
 
         next();
@@ -33,7 +29,6 @@ export const authenticate = (req, res, next) => {
 };
 
 
-// Check admin role
 export const authorizeAdmin = (req, res, next) => {
     try {
         if (!req.user || req.user.role !== "admin") {

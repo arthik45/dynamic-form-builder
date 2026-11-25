@@ -73,14 +73,13 @@ const formSlice = createSlice({
     extraReducers: (builder) => {
         builder
 
-            // Pending
+          
             .addCase(createForm.pending, (state) => {
                 state.loading = true;
                 state.error = null;
                 state.success = false;
             })
 
-            // Success
             .addCase(createForm.fulfilled, (state, action) => {
                 state.loading = false;
                 state.success = true;
@@ -88,7 +87,6 @@ const formSlice = createSlice({
                 state.forms.unshift(action.payload.form);
             })
 
-            // Error
             .addCase(createForm.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || "Failed to create form";

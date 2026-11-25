@@ -47,7 +47,6 @@ const createNewField = () => ({
 });
 
 function CreateForm() {
-    // const navigate = useNavigate();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -62,7 +61,7 @@ function CreateForm() {
     const [shareUrl, setShareUrl] = useState("");
     const [optionText, setOptionText] = useState({});
 
-    // Add a new field
+
     const handleAddField = () => {
         const newField = createNewField();
 
@@ -70,7 +69,6 @@ function CreateForm() {
         setSelectedField(newField.id);
     };
 
-    // Update a field
     const handleFieldChange = (id, property, value) => {
         setFields((prev) =>
             prev.map((field) =>
@@ -81,7 +79,6 @@ function CreateForm() {
         );
     };
 
-    // Delete a field
     const handleDeleteField = (id) => {
         setFields((prev) => prev.filter((field) => field.id !== id));
 
@@ -90,7 +87,6 @@ function CreateForm() {
         }
     };
 
-    // Move field up or down
     const handleMoveField = (index, direction) => {
         const updatedFields = [...fields];
         const newIndex = index + direction;
@@ -105,7 +101,6 @@ function CreateForm() {
         setFields(updatedFields);
     };
 
-    // Convert label into field key
     const handleLabelChange = (id, value) => {
         const key = value
             .trim()
@@ -121,8 +116,6 @@ function CreateForm() {
             )
         );
     };
-
-    // Save form
 
     const handleSave = async (status) => {
         if (!formName.trim()) {
@@ -230,7 +223,6 @@ function CreateForm() {
         <div className="create-form-page">
             <Navbar />
 
-            {/* Header */}
             <header className="create-header">
                 <div className="header-left">
                     <button
@@ -269,7 +261,6 @@ function CreateForm() {
 
             <div className="create-form-layout">
 
-                {/* Left: Form Builder */}
                 <main className="builder-section">
 
                     {/* Form Details */}
@@ -300,7 +291,6 @@ function CreateForm() {
                         </div>
                     </section>
 
-                    {/* Fields */}
                     <section className="builder-card">
                         <div className="fields-heading">
                             <div className="section-heading">
@@ -578,7 +568,7 @@ function CreateForm() {
                     </section>
                 </main>
 
-                {/* Right: Settings / Summary */}
+            
                 <aside className="form-sidebar">
                     <section className="builder-card">
                         <h3>Form Summary</h3>

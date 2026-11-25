@@ -4,10 +4,6 @@ import Form from "../models/Form.js";
 import Submission from "../models/Submission.js";
 import { validateSubmission } from "../utils/validateSubmission.js";
 
-// ======================================
-// USER: SUBMIT FORM
-// POST /api/forms/:formId/submissions
-// ======================================
 
 export const createSubmission = async (req, res) => {
     try {
@@ -19,8 +15,6 @@ export const createSubmission = async (req, res) => {
                 message: "Invalid form ID"
             });
         }
-
-        // Find the form
         const form = await Form.findById(formId).lean();
 
         if (!form) {
@@ -30,7 +24,7 @@ export const createSubmission = async (req, res) => {
             });
         }
 
-        // Only published forms can receive submissions
+
         if (form.status !== "published") {
             return res.status(403).json({
                 success: false,
@@ -38,7 +32,7 @@ export const createSubmission = async (req, res) => {
             });
         }
 
-        // Check duplicate field keys in the form definition
+       
         const keys = form.fields.map((field) => field.key);
 
         if (new Set(keys).size !== keys.length) {
@@ -48,7 +42,7 @@ export const createSubmission = async (req, res) => {
             });
         }
 
-        // Validate answers against database field definitions
+        
         const { errors, cleanedData } = validateSubmission(
             form.fields,
             req.body.data
@@ -61,8 +55,6 @@ export const createSubmission = async (req, res) => {
                 errors
             });
         }
-
-        // Save submission
         const submission = await Submission.create({
             formId: form._id,
             data: cleanedData,
@@ -90,10 +82,6 @@ export const createSubmission = async (req, res) => {
 };
 
 
-// ======================================
-// ADMIN: GET ALL SUBMISSIONS
-// GET /api/admin/submissions
-// ======================================
 
 export const getAllSubmissions = async (req, res) => {
     try {
@@ -155,10 +143,6 @@ export const getAllSubmissions = async (req, res) => {
 };
 
 
-// ======================================
-// ADMIN: GET SINGLE SUBMISSION
-// GET /api/admin/submissions/:submissionId
-// ======================================
 
 export const getSingleSubmission = async (req, res) => {
     try {
@@ -197,7 +181,6 @@ export const getSingleSubmission = async (req, res) => {
     }
 };
 
-// GET /api/forms/:formId
 
 export const getPublicForm = async (req, res) => {
     try {
@@ -241,11 +224,6 @@ export const getPublicForm = async (req, res) => {
     }
 };
 
-
-// ======================================
-// ADMIN: DELETE SUBMISSION
-// DELETE /api/admin/submissions/:submissionId
-// ======================================
 
 export const deleteSubmission = async (req, res) => {
     try {

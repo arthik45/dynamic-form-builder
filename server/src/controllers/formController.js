@@ -90,7 +90,7 @@ export const createForm = async (req, res) => {
     }
 }
 
-// GET ALL FORMS
+
 
 export const getForms = async (req, res) => {
     try {
@@ -103,7 +103,6 @@ export const getForms = async (req, res) => {
 
         const skip = (page - 1) * limit;
 
-        // Get logged-in admin's forms
         const filter = {
             createdBy: req.user.id
         };
@@ -130,10 +129,8 @@ export const getForms = async (req, res) => {
             Form.countDocuments(filter)
         ]);
 
-        // Get IDs of fetched forms
         const formIds = forms.map((form) => form._id);
 
-        // Count submissions for each form
         const submissionCounts = await Submission.aggregate([
             {
                 $match: {
@@ -150,7 +147,7 @@ export const getForms = async (req, res) => {
             }
         ]);
 
-        // Convert aggregation result into Map
+        
         const countMap = new Map(
             submissionCounts.map((item) => [
                 item._id.toString(),
@@ -158,7 +155,6 @@ export const getForms = async (req, res) => {
             ])
         );
 
-        // Attach submission count to forms
         const formsWithCounts = forms.map((form) => ({
             ...form,
             totalSubmissions:
@@ -214,7 +210,7 @@ export const getformById = async (req, res) => {
 }
 
 
-// UPDATE FORM
+
 export const updateForm = async (req, res) => {
     try {
         const { name, description, fields, status } = req.body;
@@ -305,7 +301,7 @@ export const Deleteform = async (req, res) => {
     }
 };
 
-// GET /api/forms/:formId
+
 
 export const getPublicForm = async (req, res) => {
     try {

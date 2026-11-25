@@ -26,7 +26,6 @@ const submissionSchema = new mongoose.Schema(
     }
 );
 
-// Efficiently find submissions belonging to a form
 submissionSchema.index({ formId: 1, createdAt: -1 });
 
 const Submission = mongoose.model("Submission", submissionSchema);

@@ -36,7 +36,6 @@ function Navbar() {
                     </h1>
                 </div>
 
-                {/* Navigation Menu */}
                 <div className="flex items-center gap-2">
 
                     <NavLink

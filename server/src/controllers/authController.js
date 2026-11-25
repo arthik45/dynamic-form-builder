@@ -80,7 +80,6 @@ export const login = async (req, res) => {
         console.log(user,"user---")
         console.log(password,"---user---")
 
-        // 1. Check whether user exists
         if (!user) {
             return res.status(401).json({
                 success: false,
@@ -88,7 +87,6 @@ export const login = async (req, res) => {
             });
         }
 
-        // 2. Check admin role
         if (user.role !== "admin") {
             return res.status(403).json({
                 success: false,
@@ -96,7 +94,6 @@ export const login = async (req, res) => {
             });
         }
 
-        // 3. Compare password
         const isMatch = await bcrypt.compare(
             password,
             user.password
@@ -109,7 +106,6 @@ export const login = async (req, res) => {
             });
         }
 
-        // 4. Generate JWT
         const token = jwt.sign(
             {
                 id: user._id,

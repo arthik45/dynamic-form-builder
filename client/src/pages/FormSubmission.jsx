@@ -24,9 +24,6 @@ function FormSubmission() {
     const [submitted, setSubmitted] = useState(false);
     const [apiError, setApiError] = useState("");
 
-    // =================================
-    // GET FORM DETAILS FROM BACKEND
-    // =================================
 
     useEffect(() => {
         const fetchForm = async () => {
@@ -57,9 +54,6 @@ function FormSubmission() {
         }
     }, [formId]);
 
-    // =================================
-    // HANDLE INPUT CHANGES
-    // =================================
 
     const handleChange = (key, value) => {
         setAnswers((prev) => ({
@@ -75,9 +69,6 @@ function FormSubmission() {
         setApiError("");
     };
 
-    // =================================
-    // HANDLE CHECKBOX
-    // =================================
 
     const handleCheckboxChange = (key, option) => {
         const currentValues = answers[key] || [];
@@ -89,9 +80,6 @@ function FormSubmission() {
         handleChange(key, updatedValues);
     };
 
-    // =================================
-    // FRONTEND VALIDATION
-    // =================================
 
     const validateForm = () => {
         const newErrors = {};
@@ -142,9 +130,7 @@ function FormSubmission() {
         return Object.keys(newErrors).length === 0;
     };
 
-    // =================================
-    // SUBMIT FORM TO BACKEND
-    // =================================
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -155,7 +141,6 @@ function FormSubmission() {
             setSubmitting(true);
             setApiError("");
 
-            // Backend expects req.body.data
             const submissionData = {
                 data: answers,
             };
@@ -188,9 +173,6 @@ function FormSubmission() {
         }
     };
 
-    // =================================
-    // LOADING SCREEN
-    // =================================
 
     if (loading) {
         return (
@@ -203,9 +185,6 @@ function FormSubmission() {
         );
     }
 
-    // =================================
-    // ERROR SCREEN
-    // =================================
 
     if (!form) {
         return (
@@ -219,9 +198,7 @@ function FormSubmission() {
         );
     }
 
-    // =================================
-    // SUCCESS SCREEN
-    // =================================
+
 
     if (submitted) {
         return (
@@ -391,7 +368,6 @@ function FormSubmission() {
                                 </div>
                             )}
 
-                            {/* CHECKBOX */}
 
                             {field.type === "CHECKBOX" && (
                                 <div className="choice-group">

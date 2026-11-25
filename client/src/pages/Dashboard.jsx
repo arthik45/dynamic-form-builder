@@ -116,7 +116,7 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* Error */}
+    
       {error && (
         <div className="bg-red-50 text-red-600 border border-red-200
                 p-4 rounded-lg mb-6">
@@ -168,7 +168,6 @@ function Dashboard() {
 
       </div>
 
-      {/* Recent Forms */}
       <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
 
         <div className="flex justify-between items-center p-6 border-b border-slate-100">

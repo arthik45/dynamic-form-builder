@@ -34,12 +34,10 @@ function MyForms() {
 
     const [search, setSearch] = useState("");
 
-    // Fetch forms when page loads
     useEffect(() => {
         dispatch(fetchForms());
     }, [dispatch]);
 
-    // Delete form
     const handleDelete = async (id) => {
         const confirmDelete = window.confirm(
             "Are you sure you want to delete this form?"
@@ -56,12 +54,10 @@ function MyForms() {
         }
     };
 
-    // Search forms
     const filteredForms = forms.filter((form) =>
         form.name?.toLowerCase().includes(search.toLowerCase())
     );
 
-    // Summary calculations
     const publishedForms = forms.filter(
         (form) => form.status?.toLowerCase() === "published"
     ).length;
@@ -76,7 +72,6 @@ function MyForms() {
         <div className="myforms-page">
             <Navbar />
 
-            {/* Header */}
             <div className="myforms-header">
                 <div className="header-left">
                     <button
@@ -101,7 +96,6 @@ function MyForms() {
                 </button>
             </div>
 
-            {/* Summary Cards */}
             <div className="myforms-stats">
 
                 <div className="myforms-stat-card">
@@ -236,7 +230,6 @@ function MyForms() {
                                                     View Submissions
                                                 </button>
 
-                                                {/* Delete */}
                                                 <button
                                                     className="delete-btn"
                                                     onClick={() =>

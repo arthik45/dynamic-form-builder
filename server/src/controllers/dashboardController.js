@@ -5,7 +5,6 @@ export const getDashboardStats = async (req, res) => {
     try {
         const adminId = req.user.id;
 
-        // Get all forms created by this admin
         const forms = await Form.find({
             createdBy: adminId
         })
@@ -14,7 +13,6 @@ export const getDashboardStats = async (req, res) => {
 
         const formIds = forms.map(form => form._id);
 
-        // Count submissions for each form
         const submissionCounts = await Submission.aggregate([
             {
                 $match: {
@@ -29,14 +27,12 @@ export const getDashboardStats = async (req, res) => {
             }
         ]);
 
-        // Convert submission counts into a lookup object
         const countMap = {};
 
         submissionCounts.forEach(item => {
             countMap[item._id.toString()] = item.total;
         });
 
-        // Attach submission count to each form
         const recentForms = forms.slice(0, 5).map(form => ({
             ...form,
             totalSubmissions: countMap[form._id.toString()] || 0

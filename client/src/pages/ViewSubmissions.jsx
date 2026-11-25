@@ -30,7 +30,6 @@ function ViewSubmissions() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    // Pagination
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState({
         total: 0,
@@ -38,9 +37,6 @@ function ViewSubmissions() {
         limit: 10,
     });
 
-    // =================================
-    // FETCH SUBMISSIONS FROM BACKEND
-    // =================================
 
     useEffect(() => {
         const fetchSubmissions = async () => {
@@ -91,9 +87,6 @@ function ViewSubmissions() {
         }
     }, [formId, page]);
 
-    // =================================
-    // GET ANSWER BY FIELD KEY
-    // =================================
 
     const getAnswer = (submission, possibleKeys) => {
         const data = submission.data || {};
@@ -105,9 +98,7 @@ function ViewSubmissions() {
         return matchingKey ? data[matchingKey] : "N/A";
     };
 
-    // =================================
-    // FORMAT ANSWER
-    // =================================
+
 
     const formatAnswer = (value) => {
         if (Array.isArray(value)) {
@@ -121,9 +112,6 @@ function ViewSubmissions() {
         return String(value ?? "N/A");
     };
 
-    // =================================
-    // SEARCH SUBMISSIONS
-    // =================================
 
     const filteredSubmissions = submissions.filter((submission) => {
         const searchValue = search.toLowerCase();
@@ -138,9 +126,6 @@ function ViewSubmissions() {
         return allAnswers.includes(searchValue);
     });
 
-    // =================================
-    // FORMAT DATE
-    // =================================
 
     const formatDate = (date) => {
         if (!date) return "N/A";
@@ -152,9 +137,7 @@ function ViewSubmissions() {
         });
     };
 
-    // =================================
-    // VIEW SUBMISSION DETAILS
-    // =================================
+
 
     const handleViewDetails = (submission) => {
         setSelectedSubmission(submission);
@@ -179,7 +162,6 @@ function ViewSubmissions() {
 
                         <div>
                             <h2>My Forms</h2>
-                            {/* <p>Manage all your created forms in one place.</p> */}
                         </div>
                     </div>
 
@@ -386,7 +368,6 @@ function ViewSubmissions() {
 
             </div>
 
-            {/* SUBMISSION DETAILS MODAL */}
 
             {selectedSubmission && (
 
